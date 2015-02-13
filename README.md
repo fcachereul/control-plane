@@ -10,7 +10,7 @@ Visit http://www.lisp.ipv6.lip6.fr
 # How to install ?
 
 
-**Require: expat library (need expat.h expat_external.h in /usr/local/include/)
+Require: expat library (need expat.h expat_external.h in /usr/local/include/)
 	Installation of the expat library using ports collection (on FreeBSD) or packaging tool (on Linux).
 	On FreeBSD:
 		#cd /usr/ports/textproc/expat2
@@ -33,16 +33,16 @@ is an example of configuration for DDT root. The opencp_xtr-sample-configure-of-
 of configuration for rtr node. The opencp_xtr-sample-configure-multi-mapping-system.xml is an example of 
 configuration for xTR to send difference EID-prefix(es) to difference Map-server(s). 
 
-a.  The configuration relies on a main configuration file named "opencp.conf" that allow you setup what function of 
+	a.  The configuration relies on a main configuration file named "opencp.conf" that allow you setup what function of 
 control-plane you want and also points to specific xml configuration files of each functions.
 
-b.  xTR configuration file (opencp_xtr.xml) includes:
+	b.  xTR configuration file (opencp_xtr.xml) includes:
 	+ The <mapserver> section defines the list of MSs the xTR registers to. 
 	Each MS needs a key to authenticate. 
 	+ The <mapresolve> section defines the list of MRs the xTR can send map-requests.
 	+ One or more <eid> sections. Each section gives the information for one EID IP prefix to register.
 
-c. Map server configuration file (opencp_ms.xml) includes:
+	c. Map server configuration file (opencp_ms.xml) includes:
 	+ The <geid> section defines the IP prefixes the map-server allows ETR to register to. 
 	The IP ranges must not be overlapped.
 	+ One or more <site> sections. Each section includes the information for one site:
@@ -50,7 +50,7 @@ c. Map server configuration file (opencp_ms.xml) includes:
 		+ key for map-register messages (NB: the key is case sensitive and must not include spaces),
 		+ EID IP prefixes the site can register.
 
-d. DDT node and MR configuration file (opencp_mr.xml) includes:
+	d. DDT node and MR configuration file (opencp_mr.xml) includes:
 	+ The <geid> section defines the IP prefix(es) the node is delegated. 
 	The IP ranges must not be overlapped. 
 	NB: if the node is a DDT root, 
@@ -58,7 +58,7 @@ d. DDT node and MR configuration file (opencp_mr.xml) includes:
 	+ One or more <eid> sections. Each section contains the information for one delegated prefix. 
 	Special <eid> sections with prefix equal 0.0.0.0/0 or 0::/0 is for DDT root nodes.
 
-e. RTR configuration file (pencp_rtr.xml) includes:
+	e. RTR configuration file (pencp_rtr.xml) includes:
 	+ The <mapresolve> section defines the list of MRs the RTR can send map-requests.
 	+ One or more <eid> sections. Each section includes the information for EID-prefix pass over RTR.
 	

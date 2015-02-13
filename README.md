@@ -12,9 +12,11 @@ Visit http://www.lisp.ipv6.lip6.fr
 
 Require: expat library (need expat.h expat_external.h in /usr/local/include/)
 	Installation of the expat library using ports collection (on FreeBSD) or packaging tool (on Linux).
+	
 	On FreeBSD:
 		#cd /usr/ports/textproc/expat2
 		#make clean install
+	
 	On Linux:(example for Ubuntu)
 		#apt-get install libexpat1-dev
 

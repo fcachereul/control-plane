@@ -4,7 +4,7 @@ The OpenLISP control plane (opencp) repository https://github.com/lip6-lisp/cont
 It is designed to work on both linux and BSD platforms.
 
 # For more info
-Visit http://www.lisp.ipv6.lip6.fr
+http://www.lisp.ipv6.lip6.fr
 
 
 # How to install ?
@@ -25,52 +25,47 @@ If you use other compiler, modify the Makefile to assign CC variable to your com
 (Note: default FreeBSD 10 use `clang` instead `gcc`)
 	CC = gcc  --> CC = your_complier
 
-2. From source code directory, run 'make'. This will make binary file 'opencp'.
+2. From source code directory, run 'make'. This will create the binary file 'opencp'.
 
-3. Still from source code directory, run 'make install' to install service script to /etc/rc.d/. 
-It also copy the main configure file (opencp.conf) and 05 sample configures 
-file 'opencp_xtr.xml, opencp_ms.xml, opencp_mr.xml, opencp_node.xml, opencp_rtr.xml' to /etc/. Please edit 
-the configure files to suit before go to next step. The opencp_mr-sample-configure-of-ddt-root.xml file 
-is an example of configuration for DDT root. The opencp_xtr-sample-configure-of-lisp-te.xml file is an examle
-of configuration for rtr node. The opencp_xtr-sample-configure-multi-mapping-system.xml is an example of 
-configuration for xTR to send difference EID-prefix(es) to difference Map-server(s). 
+3. From source code directory, run 'make install' to install the service script to /etc/rc.d/. 
+It also copies the main configuration file (opencp.conf) and five other specific configuration files: 
+ 'opencp_xtr.xml, opencp_ms.xml, opencp_mr.xml, opencp_node.xml, opencp_rtr.xml' to /etc/. Please edit 
+the configuration files to customize it before continuing. By default: opencp_mr-sample-configure-of-ddt-root.xml file 
+contains an example configuration for the DDT root node function; opencp_xtr-sample-configure-of-lisp-te.xml file contains an example  configuration of the RTR node function; opencp_xtr-sample-configure-multi-mapping-system.xml contains an example  
+configuration for the xTR node function. 
 
-	a.  The configuration relies on a main configuration file named "opencp.conf" that allow you setup what function of 
-control-plane you want and also points to specific xml configuration files of each functions.
+	a.  The main configuration (opencp.conf) allows you to indicate what  
+control-plane function to enable. It also points to the specific xml configuration files for each functions.
 
-	b.  xTR configuration file (opencp_xtr.xml) includes:
-	+ The <mapserver> section defines the list of MSs the xTR registers to. 
-	Each MS needs a key to authenticate. 
-	+ The <mapresolve> section defines the list of MRs the xTR can send map-requests.
-	+ One or more <eid> sections. Each section gives the information for one EID IP prefix to register.
+	b.  The xTR configuration file (opencp_xtr.xml) includes:
+	+ <mapserver> section: list of MSs the xTR registers to. 
+	Each MS needs an authentication key. 
+	+ <mapresolve> section: list of MRs the xTR can send map-requests to.
+	+ One or more <eid> sections: each section gives the information of one EID IP prefix to register.
 
 	c. Map server configuration file (opencp_ms.xml) includes:
-	+ The <geid> section defines the IP prefixes the map-server allows ETR to register to. 
-	The IP ranges must not be overlapped.
-	+ One or more <site> sections. Each section includes the information for one site:
-		+ site name,
-		+ key for map-register messages (NB: the key is case sensitive and must not include spaces),
+	+ <geid> section: IP prefixes the map-server allows ETR to register to. The IP ranges must not overlap.
+	+ One or more <site> sections: each section includes the information for one site:
+		+ site name.
+		+ key for map-register messages. NB: the key is case sensitive and must not include spaces.
 		+ EID IP prefixes the site can register.
 
 	d. DDT node and MR configuration file (opencp_mr.xml) includes:
-	+ The <geid> section defines the IP prefix(es) the node is delegated. 
-	The IP ranges must not be overlapped. 
-	NB: if the node is a DDT root, 
-	then it is here configured as being delegated for 0.0.0.0/0 (IPv4) and 0::/0 (IPv6).
-	+ One or more <eid> sections. Each section contains the information for one delegated prefix. 
-	Special <eid> sections with prefix equal 0.0.0.0/0 or 0::/0 is for DDT root nodes.
+	+ <geid> section: the IP prefix(es) the node is delegated. The IP ranges must not overlap. 
+	NB: if the node is a DDT root, then it is here configured as being delegated for 0.0.0.0/0 (IPv4) and 0::/0 (IPv6).
+	+ One or more <eid> sections: each section contains the information for one delegated prefix. 
+	Special <eid> sections with prefix equal 0.0.0.0/0 or 0::/0 are for DDT root nodes.
 
 	e. RTR configuration file (pencp_rtr.xml) includes:
-	+ The <mapresolve> section defines the list of MRs the RTR can send map-requests.
-	+ One or more <eid> sections. Each section includes the information for EID-prefix pass over RTR.
+	+ <mapresolve> section: list of MRs the RTR can send map-requests.
+	+ One or more <eid> sections: each section includes the information for EID-prefix pass over RTR.
 	
-4. To start the program at first time, use 'service opencp start' or '/etc/rc.d/opencp_service start' command ; or run manual
-by ./opencp -f [<path_to_opencp.conf>]
+4. To start the program the first time, use 'service opencp start' or '/etc/rc.d/opencp_service start' command or run it manually by ./opencp -f [<path_to_opencp.conf>]
 
-5. To make program auto start when reboot, edit the /etc/rc.conf and add the flow line:
+5. To let the program autostart when rebooting, edit the /etc/rc.conf adding the following line:
 	opencp_enable="YES"
 
-6. When run manual, opencp show log information to terminal. When run as daemon (auto start when reboot or by service command), opencp log to `/var/log/opencp.log`. In FreeBSD to rotation log file of opencp, edit the /etc/newsyslog.conf and add the flow line (opencp.log will be archived each time it turned over 1000KB):
+6. When running manually, opencp shows the log information to terminal. When run as a daemon (auto start when rebooting or by service command), opencp logs to `/var/log/opencp.log`. In FreeBSD, to rotate the log file, edit the /etc/newsyslog.conf and add the following line (opencp.log will be archived each time it gets over 1000KB):
 	/var/log/opencp.log                     600  7     1000 *     JC    /var/run/opencp.pid  30
 
 # Contact
@@ -84,5 +79,6 @@ Pull requests are welcome and should also go through the github system.
 
 Reference
 ---------
+DC. Phung, S. Secci, D. Saucez, L. Iannone, "The OpenLISP Control Plane Architecture", IEEE Network Magazine, 2014. Url: http://www-phare.lip6.fr/~secci/papers/PhSeSaIa-NETMAG14.pdf
 
-[The OpenLISP Control Plane Architecture], IEEE Network Magazine, 2014. Url: http://www-phare.lip6.fr/~secci/papers/PhSeSaIa-NETMAG14.pdf
+Please acknoledge the paper above when using the code.

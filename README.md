@@ -81,4 +81,4 @@ Reference
 ---------
 DC. Phung, S. Secci, D. Saucez, L. Iannone, "The OpenLISP Control Plane Architecture", IEEE Network Magazine, 2014. Url: http://www-phare.lip6.fr/~secci/papers/PhSeSaIa-NETMAG14.pdf
 
-Please acknoledge the paper above when using the code.
+Please acknowledge the paper above when using the code.
